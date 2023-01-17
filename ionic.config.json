@@ -1,0 +1,7 @@
+{
+  "name": "MeeW-Frontend-Template",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

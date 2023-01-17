@@ -1,0 +1,111 @@
+{
+  "name": "MeeW-Frontend-Template",
+  "description": "MeeW Ionic Template",
+  "author": "Mark Kragerup & MeeW Techlead Team",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "prepare": "husky install",
+    "generate:types": "ts-node src/types/generate-types.ts",
+    "test": "react-scripts test --coverage --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
+    "eject": "react-scripts eject",
+    "fix": "eslint --fix src && prettier --write src"
+  },
+  "lint-staged": {
+    "src/**/*.{ts, tsx, js, jsx, json}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)"
+    ]
+  },
+  "dependencies": {
+    "@capacitor/android": "4.0.1",
+    "@capacitor/app": "4.0.1",
+    "@capacitor/camera": "^4.1.4",
+    "@capacitor/core": "4.0.1",
+    "@capacitor/haptics": "4.0.1",
+    "@capacitor/ios": "4.0.1",
+    "@capacitor/keyboard": "4.0.1",
+    "@capacitor/status-bar": "4.0.1",
+    "@ionic/pwa-elements": "^3.1.1",
+    "@ionic/react": "^6.2.6",
+    "@ionic/react-router": "^6.2.6",
+    "@supabase/supabase-js": "^2.0.2",
+    "antd": "^5.0.7",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "formik": "^2.2.9",
+    "i18next": "^21.9.0",
+    "ionicons": "^5.4.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-i18next": "^11.18.3",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.0",
+    "swiper": "^8.4.4",
+    "ts-node": "^10.9.1",
+    "web-vitals": "^0.2.4",
+    "workbox-background-sync": "^5.1.4",
+    "workbox-broadcast-update": "^5.1.4",
+    "workbox-cacheable-response": "^5.1.4",
+    "workbox-core": "^5.1.4",
+    "workbox-expiration": "^5.1.4",
+    "workbox-google-analytics": "^5.1.4",
+    "workbox-navigation-preload": "^5.1.4",
+    "workbox-precaching": "^5.1.4",
+    "workbox-range-requests": "^5.1.4",
+    "workbox-routing": "^5.1.4",
+    "workbox-strategies": "^5.1.4",
+    "workbox-streams": "^5.1.4",
+    "yup": "^0.32.11",
+    "zustand": "^4.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "4.0.1",
+    "@ionic/cli": "6.20.3",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.6.3",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^12.19.15",
+    "@types/react": "^16.14.3",
+    "@types/react-dom": "^16.9.10",
+    "@types/react-router": "^5.1.11",
+    "@types/react-router-dom": "^5.1.7",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "dotenv-cli": "^6.0.0",
+    "eslint": "^8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.30.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "supabase": "^1.10.2",
+    "typescript": "^4.1.3"
+  }
+}

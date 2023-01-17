@@ -1,0 +1,6 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "MeeW-Frontend-Template",
+  "webDir": "build",
+  "bundledWebRuntime": false
+}

@@ -1,0 +1,37 @@
+{
+  "landingPage": {
+    "title": "Welcome to MeeWs frontend template",
+    "signIn": "Sign in"
+  },
+  "authentication": {
+    "login": "Login",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "repeatPassword": "Repeat password",
+    "required": "This field is required",
+    "passwordMustMatch": "Password must match",
+    "genericError": "An Error Occured",
+    "signingIn": "Signing in...",
+    "loginFailed": "Login failed",
+    "signUpFailed": "Sign up failed",
+    "redirecting": "Redirecting...",
+    "show": "Show",
+    "hide": "Hide",
+    "forgotPassword": "Forgot password?",
+    "or": "Or",
+    "creatingUser": "Creating user...",
+    "signUpSuccessful": "Sign up successful!",
+    "emailInvalid": "Email invalid",
+    "passwordMinLength": "Must be at least 8 characters",
+    "passwordResetFailed": "Password reset failed",
+    "resetting": "Resetting...",
+    "resetSuccessful": "Reset successful!",
+    "resetPassword": "Reset password",
+    "sendingEmail": "Sending email...",
+    "resetLinkSent": "Reset link sent",
+    "ifAccountExists": "If an account exists, a password reset link has been sent.",
+    "sendResetLink": "Send reset link"
+  }
+}

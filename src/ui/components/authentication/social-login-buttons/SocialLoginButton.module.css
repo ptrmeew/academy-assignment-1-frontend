@@ -1,0 +1,26 @@
+.buttonGoogle {
+  --background: #ffffff;
+  --background-hover: #f2f2f2;
+  --background-activated: #f2f2f2;
+  --background-focused: #f2f2f2;
+  --border-radius: 5px;
+  --box-shadow: 0 1px 2px 0 rgb(0, 0, 0, 0.18);
+}
+
+.buttonFacebook {
+  --background: #5890ff;
+  --background-hover: #71a1ff;
+  --background-activated: #6096ff;
+  --background-focused: #6096ff;
+  --border-radius: 5px;
+  --box-shadow: 0 1px 2px 0 rgb(0, 0, 0, 0.18);
+}
+
+.buttonApple {
+  --background: #000000;
+  --background-hover: #2a2a2a;
+  --background-activated: #2a2a2a;
+  --background-focused: #2a2a2a;
+  --border-radius: 5px;
+  --box-shadow: 0 1px 2px 0 rgb(0, 0, 0, 0.18);
+}
