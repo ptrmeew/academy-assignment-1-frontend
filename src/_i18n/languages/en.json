@@ -33,5 +33,12 @@
     "resetLinkSent": "Reset link sent",
     "ifAccountExists": "If an account exists, a password reset link has been sent.",
     "sendResetLink": "Send reset link"
+  },
+  "profile": {
+    "saving": "Saving profile...",
+    "savingFailed": "Saving profile failed",
+    "edit": "Edit profile",
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }

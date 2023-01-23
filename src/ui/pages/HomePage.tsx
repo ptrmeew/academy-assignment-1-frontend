@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router';
 import { IonReactRouter } from '@ionic/react-router';
 import {
@@ -10,13 +10,9 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonMenu,
   IonMenuButton,
   IonPage,
-  IonTitle,
   IonToolbar,
-  IonItem,
-  IonButton,
   useIonRouter,
 } from '@ionic/react';
 import { peopleOutline, ticketOutline, walletOutline, cameraOutline } from 'ionicons/icons';
@@ -27,11 +23,18 @@ import Tab3 from './tabs/tab-3/Tab3';
 import Tab4 from './tabs/tab-4/Tab4';
 import { supabase } from 'apis/supabaseClient';
 import { useAuthUserStore } from 'store/user';
+import { ProfileMenu, ProfileMenuProps } from 'ui/components/profile/ProfileMenu';
+import Profile, { ProfileProps } from '../components/profile/ProfileModal';
 
 const HomePage: React.FC = () => {
   const router = useIonRouter();
   const authUser = useAuthUserStore((state) => state.authUser);
   const resetAuthUser = useAuthUserStore((state) => state.resetAuthUser);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+
+  const toggleProfileModal = ()=>{
+    setShowProfileModal(!showProfileModal);
+  };
 
   useEffect(() => {
     if (!authUser) router.push('/login');
@@ -43,26 +46,36 @@ const HomePage: React.FC = () => {
     router.push('/login');
   };
 
+  const menuProps: ProfileMenuProps = {
+    toggleProfileModal,
+    handleLogOut
+  };
+
+  const profileProps: ProfileProps = {
+    toggleProfileModal,
+    showProfileModal
+  };
+
   return (
     <IonPage id="main-content">
       <IonHeader>
         <IonToolbar>
-          <IonButton onClick={handleLogOut} slot="end">
-            Log ud
-          </IonButton>
+          <IonButtons slot="end">
+            <ProfileMenu {...menuProps}></ProfileMenu>
+          </IonButtons>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
+        <Profile {...profileProps} />
         <IonReactRouter>
           <IonTabs>
             <IonRouterOutlet>
               {pages.map((p, i) => {
                 return <Route key={i} exact path={p.path} component={p.component} />;
               })}
-
               <Route exact path="/home">
                 <Redirect to={pages.filter((p) => p.redirect)[0].path} />
               </Route>
