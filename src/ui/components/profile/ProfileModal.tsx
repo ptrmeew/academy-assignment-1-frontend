@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { t } from 'i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object } from 'yup';
+import { message } from 'antd';
 
 export interface ProfileProps {
   showProfileModal: boolean,
@@ -20,15 +21,28 @@ const UserProfile: React.FC<ProfileProps> = ({ showProfileModal, toggleProfileMo
   const [present, dismiss] = useIonLoading();
   const [presentAlert] = useIonAlert();
   const [values, setValues] = useState<CustomProfile>();
+  const [avatarUrl, setAvatarUrl] = useState<string>('');
+
+  const downloadImage = async (path: string) => {
+    try {
+      const { data, error } = await supabase.storage.from('avatars').download(path);
+      if (error) {
+        throw error;
+      }
+      const url = URL.createObjectURL(data);
+      setAvatarUrl(url);
+    } catch (error: any) {
+      message.error(`Error downloading image: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     const getProfile = async () => {
-      console.log(user);
       if (!user) return;
       try {
         const { data, error, status } = await supabase
           .from('profile')
-          .select('first_name, last_name, age')
+          .select('first_name, last_name, age, avatar_path')
           .eq('id', user.id)
           .single();
 
@@ -38,27 +52,28 @@ const UserProfile: React.FC<ProfileProps> = ({ showProfileModal, toggleProfileMo
 
         if (data) {
           // TODO: automate mapping beetween snake and camelCase
-          const { first_name: firstName, last_name: lastName, age } = data;
-          setValues({ firstName, lastName, age });
+          const { first_name: firstName, last_name: lastName, age, avatar_path: avatarPath } = data;
+          setValues({ firstName, lastName, age, avatarPath });
+          if (avatarPath) await downloadImage(avatarPath);
         }
       } catch (error: any) {
-        alert(error.message);
+        message.error(error.message);
       };
     };
     getProfile();
-  }, [user]);
+  }, [user, values?.avatarPath]);
 
   const updateProfile = async (values: CustomProfile) => {
     try {
       await present({ message: t('profile.saving') });
-      const { firstName, lastName, age } = values;
-      const updates = { first_name: firstName, last_name: lastName, age };
+      const { firstName, lastName, age, avatarPath } = values;
+      const updates = { first_name: firstName, last_name: lastName, age, avatar_path: avatarPath };
       const { error } = await supabase.from('profile').update(updates).eq('id', user?.id);
 
       if (error) {
         throw error;
       } else {
-        setValues({ firstName, lastName, age });
+        setValues({ firstName, lastName, age, avatarPath });
       }
     } catch (error: any) {
       await presentAlert({
@@ -104,13 +119,18 @@ const UserProfile: React.FC<ProfileProps> = ({ showProfileModal, toggleProfileMo
         </IonToolbar>
       </IonHeader>
       <IonContent className='ion-padding'>
-          {Object.keys(values ?? {}).length > 0 && (
+        {Object.keys(values ?? {}).length > 0 && (
+          <>
+            <div className='flex justify-center mt-3 mb-6'>
+              <img className='rounded-full' alt="avatar" src={avatarUrl || 'https://place-hold.it/200x200'} />
+            </div>
             <ProfileForm
               action={updateProfile}
               values={values}
               formMethods={formMethods}
             />
-          )}
+          </>
+        )}
       </IonContent>
     </IonModal>
   );

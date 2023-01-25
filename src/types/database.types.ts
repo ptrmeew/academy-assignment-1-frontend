@@ -63,6 +63,7 @@ export interface Database {
       profile: {
         Row: {
           age: number
+          avatar_path: string | null
           first_name: string
           id: string
           ios_subscription_fk: string | null
@@ -71,6 +72,7 @@ export interface Database {
         }
         Insert: {
           age: number
+          avatar_path?: string | null
           first_name: string
           id?: string
           ios_subscription_fk?: string | null
@@ -79,6 +81,7 @@ export interface Database {
         }
         Update: {
           age?: number
+          avatar_path?: string | null
           first_name?: string
           id?: string
           ios_subscription_fk?: string | null
