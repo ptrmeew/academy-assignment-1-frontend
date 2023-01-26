@@ -14,13 +14,12 @@ import {
   IonPage,
   IonToolbar,
   useIonRouter,
+  IonTitle,
 } from '@ionic/react';
-import { peopleOutline, ticketOutline, walletOutline, cameraOutline } from 'ionicons/icons';
+import { cameraOutline, homeOutline } from 'ionicons/icons';
 
 import Tab1 from './tabs/tab-1/Tab1';
 import Tab2 from './tabs/tab-2/Tab2';
-import Tab3 from './tabs/tab-3/Tab3';
-import Tab4 from './tabs/tab-4/Tab4';
 import { supabase } from 'apis/supabaseClient';
 import { useAuthUserStore } from 'store/user';
 import { ProfileMenu, ProfileMenuProps } from 'ui/components/profile/ProfileMenu';
@@ -101,33 +100,17 @@ export default HomePage;
 
 const pages = [
   {
-    name: 'photo',
-    icon: cameraOutline,
+    name: 'welcomeUser',
+    icon: homeOutline,
     path: '/tab1',
     component: Tab1,
     redirect: true,
   },
   {
-    name: 'people',
-    icon: peopleOutline,
+    name: 'photo',
+    icon: cameraOutline,
     path: '/tab2',
     component: Tab2,
     redirect: false,
   },
-  {
-    name: 'ticket',
-    icon: ticketOutline,
-    path: '/tab3',
-    component: Tab3,
-    redirect: false,
-  },
-  {
-    name: 'wallet',
-    icon: walletOutline,
-    path: '/tab4',
-    component: Tab4,
-    redirect: false,
-  },
 ];
-
-const menuItems = [{ name: 'Settings' }, { name: 'Account' }, { name: 'Questionnaire' }, { name: 'Logout' }];
