@@ -9,7 +9,7 @@ import { t } from 'i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object } from 'yup';
 import { useProfileStore } from 'store/profile';
-import { fetchFromBucket } from 'apis/profileService';
+import { fetchFromBucket } from 'apis/bucketClient';
 
 export interface ProfileProps {
   showProfileModal: boolean,

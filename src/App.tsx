@@ -45,7 +45,7 @@ import ForgotPasswordPage from 'ui/pages/ForgotPasswordPage';
 import ResetPasswordPage from 'ui/pages/ResetPasswordPage';
 import HomePage from 'ui/pages/HomePage';
 import { AntdThemeWrapper } from './ui/theme/AntdThemeWrapper';
-import { fetchProfile } from 'apis/profileService';
+import { fetchProfile } from 'apis/profileClient';
 
 setupIonicReact({ mode: 'ios' });
 
