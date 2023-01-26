@@ -100,8 +100,8 @@ const UserProfile: React.FC<ProfileProps> = ({ showProfileModal, toggleProfileMo
         {Object.keys(values ?? {}).length > 0 && (
           <>
           <div className='flex justify-center'>
-            <div className='mt-3 mb-6 max-w-md'>
-              <img className='rounded-full' alt="avatar" src={avatarUrl || 'https://place-hold.it/200x200'} />
+            <div className='mt-3 mb-6'>
+              <img className='rounded-full h-80 w-80' alt="avatar" src={avatarUrl || 'https://place-hold.it/200x200'} />
             </div>
           </div>
             <ProfileForm
