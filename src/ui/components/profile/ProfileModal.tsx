@@ -8,7 +8,8 @@ import { useForm } from 'react-hook-form';
 import { t } from 'i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object } from 'yup';
-import { message } from 'antd';
+import { useProfileStore } from 'store/profile';
+import { fetchFromBucket } from 'apis/profileService';
 
 export interface ProfileProps {
   showProfileModal: boolean,
@@ -18,50 +19,25 @@ export interface ProfileProps {
 const UserProfile: React.FC<ProfileProps> = ({ showProfileModal, toggleProfileModal }) => {
 
   const user = useAuthUserStore((state) => state.authUser);
+  const profile = useProfileStore((state) => state.profile);
+  const setProfile = useProfileStore((state) => state.setProfile);
   const [present, dismiss] = useIonLoading();
   const [presentAlert] = useIonAlert();
   const [values, setValues] = useState<CustomProfile>();
-  const [avatarUrl, setAvatarUrl] = useState<string>('');
-
-  const downloadImage = async (path: string) => {
-    try {
-      const { data, error } = await supabase.storage.from('avatars').download(path);
-      if (error) {
-        throw error;
-      }
-      const url = URL.createObjectURL(data);
-      setAvatarUrl(url);
-    } catch (error: any) {
-      message.error(`Error downloading image: ${error.message}`);
-    }
-  };
+  const [avatarUrl, setAvatarUrl] = useState<string>();
 
   useEffect(() => {
-    const getProfile = async () => {
-      if (!user) return;
-      try {
-        const { data, error, status } = await supabase
-          .from('profile')
-          .select('first_name, last_name, age, avatar_path')
-          .eq('id', user.id)
-          .single();
-
-        if (error && status !== 406) {
-          throw error;
+    const init = async () => {
+      if (profile) {
+        setValues(profile);
+        if (profile.avatarPath) {
+          const avatarUrl = await fetchFromBucket('avatars', profile.avatarPath).then(res=>res?.url);
+          setAvatarUrl( avatarUrl );
         }
-
-        if (data) {
-          // TODO: automate mapping beetween snake and camelCase
-          const { first_name: firstName, last_name: lastName, age, avatar_path: avatarPath } = data;
-          setValues({ firstName, lastName, age, avatarPath });
-          if (avatarPath) await downloadImage(avatarPath);
-        }
-      } catch (error: any) {
-        message.error(error.message);
-      };
+      }
     };
-    getProfile();
-  }, [user, values?.avatarPath]);
+    init();
+  }, [profile]);
 
   const updateProfile = async (values: CustomProfile) => {
     try {
@@ -73,7 +49,9 @@ const UserProfile: React.FC<ProfileProps> = ({ showProfileModal, toggleProfileMo
       if (error) {
         throw error;
       } else {
-        setValues({ firstName, lastName, age, avatarPath });
+        const profile: CustomProfile = { firstName, lastName, age, avatarPath };
+        setValues(profile);
+        setProfile(profile);
       }
     } catch (error: any) {
       await presentAlert({
@@ -121,9 +99,11 @@ const UserProfile: React.FC<ProfileProps> = ({ showProfileModal, toggleProfileMo
       <IonContent className='ion-padding'>
         {Object.keys(values ?? {}).length > 0 && (
           <>
-            <div className='flex justify-center mt-3 mb-6'>
+          <div className='flex justify-center'>
+            <div className='mt-3 mb-6 max-w-md'>
               <img className='rounded-full' alt="avatar" src={avatarUrl || 'https://place-hold.it/200x200'} />
             </div>
+          </div>
             <ProfileForm
               action={updateProfile}
               values={values}

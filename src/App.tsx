@@ -3,8 +3,9 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { IonApp, IonLoading, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { supabase } from 'apis/supabaseClient';
-import { Session } from '@supabase/supabase-js';
+import { Session, User } from '@supabase/supabase-js';
 import { useAuthUserStore } from 'store/user';
+import { useProfileStore } from 'store/profile';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -44,6 +45,7 @@ import ForgotPasswordPage from 'ui/pages/ForgotPasswordPage';
 import ResetPasswordPage from 'ui/pages/ResetPasswordPage';
 import HomePage from 'ui/pages/HomePage';
 import { AntdThemeWrapper } from './ui/theme/AntdThemeWrapper';
+import { fetchProfile } from 'apis/profileService';
 
 setupIonicReact({ mode: 'ios' });
 
@@ -51,19 +53,32 @@ const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const setAuthUser = useAuthUserStore((state) => state.setAuthUser);
+  const setProfile = useProfileStore((state) => state.setProfile);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(() => updateSession());
-    void updateSession();
+    void setGlobalState();
     return () => data.subscription.unsubscribe();
   }, []);
 
-  const updateSession = async (): Promise<void> => {
-    const { data } = await supabase.auth.getSession();
-    setSession(data.session);
-    data.session && setAuthUser(data.session.user);
+  const setGlobalState = async (): Promise<void> => {
+    const user = await updateSession();
+    if (user) {
+      const profile = await fetchProfile(user);
+      profile && setProfile(profile);
+    }
     setLoading(false);
   };
+
+  const updateSession = async () => {
+    const { data } = await supabase.auth.getSession();
+    if (data.session) {
+      setSession(data.session);
+      setAuthUser(data.session.user);
+      return data.session.user;
+    }
+  };
+
   if (loading) return <IonLoading isOpen />;
   return (
     <IonApp className="bg-white">

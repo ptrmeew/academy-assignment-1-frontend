@@ -21,6 +21,17 @@ interface FormProps {
 }
 
 export const fields: Fields = {
+  avatarPath: {
+    input: {
+      name: 'avatarPath',
+      type: 'file',
+      label: 'photo'
+    },
+    // validate file extension
+    validation: string().nullable().test('', (path) => 
+      ['jpg', 'jpeg', 'png', 'webp'].includes(path?.split('.').pop() ?? 'none')
+    )
+  },
   firstName: {
     input: { name: 'firstName', label: 'First name' },
     validation: string().required().min(2).max(32)
@@ -32,13 +43,6 @@ export const fields: Fields = {
   age: {
     input: { name: 'age', label: 'Age', type: 'number' },
     validation: number().required().min(18).max(200)
-  },
-  avatarPath: {
-    input: {
-      name: 'avatarPath',
-      type: 'file',
-    },
-    validation: undefined
   },
 };
 
@@ -54,12 +58,10 @@ export const ProfileForm: React.FC<FormProps> = ({ action, values, formMethods }
   const formFields: InputProps[] = Object.keys(fields).map((field => fields[field as profileKeys].input));
 
   return (
-    <>
       <form onSubmit={formMethods.handleSubmit(action)}>
         {formFields.map((field, index) => (
           <Input {...field} control={formMethods.control} key={index} />
         ))}
       </form>
-    </>
   );
 };

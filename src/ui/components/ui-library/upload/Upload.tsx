@@ -6,9 +6,9 @@ import './upload.css';
 
 const { Dragger } = Upload;
 
-export const UploadAvatar: React.FC<UploadProps & { fileType: string }> = (props) => (
+export const UploadFile: React.FC<UploadProps & { fileType: string }> = (props) => (
   <div className='flex'>
-    <Dragger {...props} className='grow'>
+    <Dragger {...props} className='grow mb-1'>
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
